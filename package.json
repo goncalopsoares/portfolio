@@ -1,0 +1,28 @@
+{
+  "name": "vue-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vueuse/core": "^11.2.0",
+    "firebase": "^10.12.4",
+    "pinia": "^2.2.6",
+    "vue": "^3.4.29",
+    "vue-router": "^4.3.3",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.68",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "unplugin-icons": "^0.19.1",
+    "vite": "^5.3.1"
+  }
+}
