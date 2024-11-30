@@ -13,10 +13,6 @@
     <div class="mx-4 content-center">
       <h1 class="text-xl uppercase ">Olá, sou um {{ option }}</h1>
     </div>
-    <p v-for="letter in letters" :key="letter.id" class="text-xl absolute w-fit interactive"
-      :style="{ top: `${letter.top}px`, left: `${letter.left}px` }" draggable="true"
-      @dragstart="startDrag($event, letter.id)">{{ letter.title }}
-    </p>
     <div class="w-full flex flex-row mb-4">
       <p class="uppercase pt-1 pe-4 w-1/2 self-end text-end">Entra em contacto comigo através deste email</p>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="text-main-grey rotate-180 w-6 h-6 self-end ">

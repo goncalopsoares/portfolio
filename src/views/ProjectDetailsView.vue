@@ -26,9 +26,8 @@
         </div>
     </main>
     <main v-if="width < 768" class="w-full pt-10" style="margin-top: 6rem;">
-        
         <div class="flex flex-col gap-1 px-4 uppercase">
-            <a href="/projects" class="underline mb-6">
+            <a href="/portfolio/projects" class="underline mb-6">
                 Ver outros projetos
             </a>
             <div class="mb-6">
@@ -37,7 +36,7 @@
                 <p class="text-sm"> Âmbito {{ project.scope }}</p>
                 <div class="flex flex-row justify-start items-center text-center gap-6 py-5">
                     <div v-for="(icon, index) in iconRefs" :key="index" class="">
-                        <img :src="icon" :alt="icon" @click="toggleIndex(index)" />
+                        <img :src="icon" :alt="icon" @click="toggleIndex(index)" class="scale-75"/>
                         <p v-show="hoverIndex === index" class="fixed text-xs pt-1 ms-0.5">
                             {{ project.technologies[index] }}
                         </p>
@@ -65,15 +64,13 @@
     </main>
 </template>
 
-
-
 <script setup>
 import ProjectCarousel from '@/components/ProjectCarousel.vue';
 import Footer from '@/components/Footer.vue';
 import { db, storage } from '../utils/firebase.js';
 import { doc, getDoc } from 'firebase/firestore';
 import { ref as storageRef, listAll, getDownloadURL } from 'firebase/storage';
-import { ref as vueRef, onMounted, computed } from 'vue';
+import { ref as vueRef, onMounted, computed, watchEffect } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 
 const { width } = useWindowSize();
@@ -106,9 +103,7 @@ onMounted(async () => {
 
         const refs = storageRef(storage, 'videos/' + props.projectId);
 
-
         const listRef = await listAll(refs);
-
 
         for (const itemRef of listRef.items) {
             const url = await getDownloadURL(itemRef);
@@ -137,19 +132,36 @@ onMounted(async () => {
 
 const iconRefs = vueRef([]);
 
-
-onMounted(async () => {
+// Method to fetch the icons
+const fetchIcons = async () => {
     try {
+        const refs = [];
+        iconRefs.value = []; // Reset the array
 
-        const refs = [storageRef(storage, 'icons/php.svg'), storageRef(storage, 'icons/laravel.svg'), storageRef(storage, 'icons/mysql.svg'), storageRef(storage, 'icons/react.svg'), storageRef(storage, 'icons/bootstrap.svg')];
+        console.log(project.value.technologies);
 
-        for (const ref of refs) {
-            const url = await getDownloadURL(ref);
-            iconRefs.value.push(url);
+        const technologies = project.value.technologies;
+
+        for (let i = 0; i < technologies.length; i++) {
+            const listRef = storageRef(storage, `icons/${technologies[i]}.svg`);
+            refs.push(listRef);
         }
 
+        // Fetch download URLs asynchronously
+        for (const ref of refs) {
+            const url = await getDownloadURL(ref);
+            iconRefs.value.push(url); // Update reactive array
+        }
+
+        return iconRefs.value;
     } catch (error) {
         console.error("Error fetching images: ", error);
+    }
+};
+
+watchEffect(() => {
+    if (project.value.technologies && project.value.technologies.length > 0) {
+        fetchIcons(); // Fetch icons whenever technologies change
     }
 });
 

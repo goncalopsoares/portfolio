@@ -27,7 +27,8 @@
             </div>
             <p class="mt-6">{{ project.description }}</p>
             <div class="mt-6">
-                <p class="font-semibold">O meu papel</p>
+                <p v-if="project.collaborators" class="font-semibold mb-4">O meu papel</p>
+                <p v-else class="font-semibold mb-4">Características principais</p>
                 <div v-if="project.role && project.role.length">
                     <p v-for="(role, index) in project.role" :key="index">
                         • {{ role }}
@@ -35,9 +36,9 @@
                 </div>
             </div>
             <router-link :to="{ name: 'projectDetails', params: { projectId: project.projectId } }">
-                <a class="block underline font-semibold text-secundary-grey my-6">Ler mais</a>
+                <a class="block underline font-semibold text-salmon my-6">Ler mais</a>
             </router-link>
-            <div class="mt-6">
+            <div v-if="project.collaborators && collaboratorPairs.length" class="mt-6">
                 <p class="font-semibold">Em colaboração com</p>
                 <div v-if="project.collaborators && collaboratorPairs.length" class="flex flex-row gap-2">
                     <a v-for="(collaborator, index) in collaboratorPairs" :key="index" :href="collaborator.link"
@@ -68,10 +69,11 @@
             </div>
             <p>{{ project.description }}</p>
             <router-link :to="{ name: 'projectDetails', params: { projectId: project.projectId } }">
-                <a class="block underline font-semibold text-secundary-grey">Ler mais</a>
+                <a class="block underline font-semibold text-salmon">Ler mais</a>
             </router-link>
             <div class="mt-6">
-                <p class="font-semibold mb-4">O meu papel</p>
+                <p v-if="project.collaborators" class="font-semibold mb-4">O meu papel</p>
+                <p v-else class="font-semibold mb-4">Características principais</p>
                 <div v-if="project.role && project.role.length">
                     <div v-for="(role, index) in project.role" :key="index">
                         <p class="list-item mx-4 pb-2">{{ role }}</p>
@@ -79,7 +81,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <p class="font-semibold mb-4">Em colaboração com</p>
+                <p  v-if="project.collaborators && collaboratorPairs.length" class="font-semibold mb-4">Em colaboração com</p>
                 <div v-if="project.collaborators && collaboratorPairs.length" class="flex flex-row gap-2">
                     <a v-for="(collaborator, index) in collaboratorPairs" :key="index" :href="collaborator.link"
                         class="underline">

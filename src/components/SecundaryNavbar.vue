@@ -3,7 +3,7 @@
         :class="['fixed', 'w-full', 'bg-secundary-green', 'text-snow-white', 'border-b-2', { 'border-t-2': width <= 767 }, 'border-main-grey']"
         style="top: 4.6rem;">
         <nav
-            :class="['items-center', 'md:justify-end', 'flex', 'flex-row', 'py-6', 'md:px-16', 'lg:px-32', 'uppercase', { 'overflow-x-scroll': width <= 767 }, { 'justify-center': width >= 395 && width <= 767 }]">
+            :class="['items-center', 'md:justify-end', 'flex', 'flex-row', 'pb-6', 'pt-8', 'md:px-16', 'lg:px-32', 'uppercase', { 'overflow-x-scroll': width <= 767 }, 'no-scrollbar', { 'justify - center': width >= 395 && width <= 767 }]">
             <div>
                 <a v-for="option in navOptions" :key="option.name"
                     :class="[{ 'ms-8': option.code === 'work' || option.code === 'academic' || option.code === 'web' || option.code === 'spreadsheets' || option.code === 'apps' || option.code === 'outros' }, 'interactive', 'text-nowrap', 'md:ms-24', option.class, { 'underline': selected === option.code }, { 'pe-4': option.code === 'academic' && width <= 767 }, { 'pe-4': option.code === 'outros' && width <= 767 }, { 'ps-4': option.code === 'tudo' && width <= 767 }]"
@@ -46,3 +46,14 @@ const navOptions = computed(() => {
 });
 
 </script>
+
+<style>
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+</style>
